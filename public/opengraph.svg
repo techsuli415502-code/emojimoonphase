@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" fill="none">
+  <defs>
+    <radialGradient id="ogSky" cx="50%" cy="40%" r="80%">
+      <stop offset="0%" stop-color="#1A0F2E"/>
+      <stop offset="60%" stop-color="#0C0620"/>
+      <stop offset="100%" stop-color="#050111"/>
+    </radialGradient>
+    <radialGradient id="ogMoon" cx="38%" cy="32%" r="75%">
+      <stop offset="0%" stop-color="#FFF6E0"/>
+      <stop offset="55%" stop-color="#F4C97A"/>
+      <stop offset="100%" stop-color="#C77D2E"/>
+    </radialGradient>
+    <radialGradient id="ogGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F4C97A" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F4C97A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ogGoldText" x1="0" x2="1" y1="0" y2="0">
+      <stop offset="0%" stop-color="#FFF6E0"/>
+      <stop offset="55%" stop-color="#F4C97A"/>
+      <stop offset="100%" stop-color="#E0A04A"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ogSky)"/>
+
+  <!-- Stars -->
+  <g fill="#FFF6E0">
+    <circle cx="60" cy="80" r="1.2"/>
+    <circle cx="180" cy="40" r="0.8"/>
+    <circle cx="320" cy="120" r="1"/>
+    <circle cx="460" cy="70" r="0.9"/>
+    <circle cx="980" cy="60" r="1.1"/>
+    <circle cx="1100" cy="160" r="0.9"/>
+    <circle cx="1140" cy="380" r="1"/>
+    <circle cx="80" cy="540" r="1.1"/>
+    <circle cx="1080" cy="560" r="0.9"/>
+    <circle cx="950" cy="500" r="0.8"/>
+    <circle cx="200" cy="460" r="0.9"/>
+  </g>
+
+  <!-- Orbit rings + glow around moon -->
+  <circle cx="380" cy="315" r="190" fill="url(#ogGlow)"/>
+  <circle cx="380" cy="315" r="180" stroke="#F4C97A" stroke-opacity="0.22" stroke-width="1" fill="none"/>
+  <circle cx="380" cy="315" r="150" stroke="#F4C97A" stroke-opacity="0.12" stroke-width="0.8" stroke-dasharray="3 4" fill="none"/>
+
+  <!-- Waxing gibbous moon -->
+  <path d="M 380 135 A 180 180 0 1 0 380 495 A 130 180 0 1 1 380 135 Z" fill="url(#ogMoon)"/>
+  <!-- Crater accents -->
+  <circle cx="320" cy="280" r="14" fill="#C77D2E" fill-opacity="0.35"/>
+  <circle cx="285" cy="350" r="9" fill="#C77D2E" fill-opacity="0.30"/>
+  <circle cx="335" cy="405" r="7" fill="#C77D2E" fill-opacity="0.30"/>
+
+  <!-- Text block -->
+  <text x="640" y="240" font-family="Georgia, serif" font-size="74" font-weight="700" fill="url(#ogGoldText)">Emoji Moon</text>
+  <text x="640" y="320" font-family="Georgia, serif" font-size="74" font-weight="700" fill="url(#ogGoldText)">Phase</text>
+  <text x="640" y="380" font-family="Arial, sans-serif" font-size="26" fill="#E8DCC4">Live moon phase today · Lunar calendar</text>
+  <text x="640" y="416" font-family="Arial, sans-serif" font-size="26" fill="#E8DCC4">8 phases · How it works · Meaning</text>
+</svg>

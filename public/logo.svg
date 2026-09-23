@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <radialGradient id="moonGrad" cx="38%" cy="32%" r="70%">
+      <stop offset="0%" stop-color="#FFF6E0"/>
+      <stop offset="55%" stop-color="#F4C97A"/>
+      <stop offset="100%" stop-color="#C77D2E"/>
+    </radialGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#F4C97A" stop-opacity="0.55"/>
+      <stop offset="100%" stop-color="#F4C97A" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1A0F2E"/>
+      <stop offset="100%" stop-color="#070313"/>
+    </linearGradient>
+  </defs>
+  <!-- Cosmic backdrop -->
+  <rect width="64" height="64" rx="14" fill="url(#skyGrad)"/>
+  <!-- Soft glow -->
+  <circle cx="32" cy="32" r="28" fill="url(#glowGrad)"/>
+  <!-- Outer orbit ring -->
+  <circle cx="32" cy="32" r="26" stroke="#F4C97A" stroke-opacity="0.22" stroke-width="0.75" fill="none"/>
+  <circle cx="32" cy="32" r="22" stroke="#F4C97A" stroke-opacity="0.12" stroke-width="0.5" stroke-dasharray="1 2" fill="none"/>
+  <!-- Crescent moon (waxing gibbous style) -->
+  <path d="M 32 8 A 24 24 0 1 0 32 56 A 18 24 0 1 1 32 8 Z" fill="url(#moonGrad)"/>
+  <!-- Crater accents -->
+  <circle cx="24" cy="26" r="2.5" fill="#C77D2E" fill-opacity="0.35"/>
+  <circle cx="19" cy="36" r="1.8" fill="#C77D2E" fill-opacity="0.30"/>
+  <circle cx="26" cy="42" r="1.2" fill="#C77D2E" fill-opacity="0.30"/>
+  <!-- Stars -->
+  <circle cx="50" cy="14" r="0.9" fill="#FFF6E0"/>
+  <circle cx="14" cy="14" r="0.7" fill="#FFF6E0"/>
+  <circle cx="54" cy="44" r="0.6" fill="#FFF6E0"/>
+  <circle cx="10" cy="48" r="0.8" fill="#FFF6E0"/>
+</svg>
