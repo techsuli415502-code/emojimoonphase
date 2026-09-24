@@ -52,3 +52,11 @@ prompt
 server.log
 # Skills directory
 /skills/
+# Local environment-specific files (added for GitHub cleanup)
+.env
+.env.local
+db/*.db
+db/*.db-journal
+scripts/*.png
+scripts/*.jpg
+tool-results/
