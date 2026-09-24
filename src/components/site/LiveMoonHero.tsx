@@ -33,8 +33,7 @@ function pad(n: number): string {
  * The moon emoji is click-to-copy: clicking it copies the emoji to the
  * clipboard and shows a confirmation toast.
  *
- * Also embeds a third-party moon-phase widget from moonphaseemoji.com
- * in the right column as a complementary visual reference.
+ * All visuals are self-hosted (no third-party iframes or embeds).
  */
 export function LiveMoonHero() {
   const [now, setNow] = useState<Date | null>(null);
@@ -192,21 +191,64 @@ export function LiveMoonHero() {
               Live · Updated in real time
             </div>
 
-            {/* Embed widget from moonphaseemoji.com */}
-            <div className="reveal is-visible">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground/70 mb-2">
-                Live moon phase widget
-              </p>
-              <iframe
-                src="https://moonphaseemoji.com/embed?bg=020208&accent=fbbf24&label=true&size=large&lang=en"
-                width={280}
-                height={240}
-                loading="lazy"
-                title="Today's moon phase"
-                style={{ border: 0, borderRadius: 12, overflow: "hidden" }}
-                className="shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]"
-              />
-            </div>
+            {/* Self-hosted illumination ring — no third-party embeds */}
+            {phase && (
+              <div className="reveal is-visible flex flex-col items-center gap-2">
+                <p className="text-[10px] uppercase tracking-widest text-muted-foreground/70">
+                  Illumination ring
+                </p>
+                <svg
+                  width="140"
+                  height="140"
+                  viewBox="0 0 140 140"
+                  role="img"
+                  aria-label={`Moon ${illuminationPct}% illuminated`}
+                >
+                  <defs>
+                    <linearGradient id="illumGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="oklch(0.95 0.04 85)" />
+                      <stop offset="55%" stopColor="oklch(0.82 0.16 75)" />
+                      <stop offset="100%" stopColor="oklch(0.72 0.18 60)" />
+                    </linearGradient>
+                  </defs>
+                  {/* Track */}
+                  <circle cx="70" cy="70" r="58" fill="none" stroke="oklch(0.20 0.04 285 / 0.65)" strokeWidth="6" />
+                  {/* Filled arc — uses stroke-dasharray to show illuminated fraction */}
+                  <circle
+                    cx="70"
+                    cy="70"
+                    r="58"
+                    fill="none"
+                    stroke="url(#illumGrad)"
+                    strokeWidth="6"
+                    strokeLinecap="round"
+                    strokeDasharray={`${(illuminationPct / 100) * 2 * Math.PI * 58} ${2 * Math.PI * 58}`}
+                    transform="rotate(-90 70 70)"
+                  />
+                  <text
+                    x="70"
+                    y="65"
+                    textAnchor="middle"
+                    className="font-[family-name:var(--font-display-serif)]"
+                    fill="oklch(0.95 0.012 85)"
+                    fontSize="26"
+                    fontWeight="600"
+                  >
+                    {illuminationPct}%
+                  </text>
+                  <text
+                    x="70"
+                    y="86"
+                    textAnchor="middle"
+                    fill="oklch(0.72 0.018 85)"
+                    fontSize="9"
+                    letterSpacing="2"
+                  >
+                    ILLUMINATED
+                  </text>
+                </svg>
+              </div>
+            )}
           </div>
 
           {/* Right: text + stats */}
