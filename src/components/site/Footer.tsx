@@ -142,7 +142,7 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Emoji Moon Phase. All rights reserved.</p>
           <p>
             Made with care for the night sky ·{" "}
-            <Link href="/about" className="hover:text-foreground underline-offset-4 hover:underline">
+            <Link href="/#author" className="hover:text-foreground underline-offset-4 hover:underline">
               About Jacob Moses
             </Link>
           </p>

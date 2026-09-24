@@ -47,11 +47,12 @@ export function EeatSection() {
                 <div className="mt-5 space-y-4 text-sm md:text-base leading-relaxed text-muted-foreground">
                   <p>
                     Hi, I&apos;m Jacob Moses. I write and edit the content you read
-                    here on Emoji Moon Phase. I&apos;ve spent the last several years
-                    working as a content specialist focused on breaking down
-                    astronomy and night-sky topics so that curious readers can
-                    understand them without needing a telescope or a degree in
-                    astrophysics.
+                    here on Emoji Moon Phase. My focus as a content specialist is
+                    breaking down astronomy and night-sky topics so that curious
+                    readers can understand them without needing a telescope, a
+                    maths background, or a degree in astrophysics. If a sentence
+                    on this site is unclear to a non-astronomer, it&apos;s a bug
+                    I want to fix.
                   </p>
                   <p>
                     My approach is simple: explain things the way I&apos;d want
@@ -65,13 +66,14 @@ export function EeatSection() {
                     description of it.
                   </p>
                   <p>
-                    I do not claim professional credentials I don&apos;t have.
-                    I&apos;m not an astronomer, I don&apos;t hold a degree in
-                    planetary science, and I haven&apos;t received awards for
-                    this work. What I do bring is consistent practice: every
-                    explanation on this site has been written, rewritten, and
-                    fact-checked against published lunar data before it goes
-                    live. When I&apos;m uncertain about something, I say so
+                    I want to be straightforward about what I am and am not.
+                    I am not an astronomer. I do not hold a degree in
+                    planetary science or physics. I have not received awards
+                    or formal credentials for this work, and I do not want to
+                    imply otherwise. What I do bring is consistent practice:
+                    every explanation on this site has been written, rewritten,
+                    and fact-checked against published lunar data before it
+                    goes live. When I&apos;m uncertain about something, I say so
                     directly in the article or leave the question for a future
                     update rather than guessing.
                   </p>
@@ -84,8 +86,8 @@ export function EeatSection() {
                 </div>
 
                 <div className="mt-7 pt-5 border-t border-[oklch(0.95_0.012_85/0.08)] grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                  <Pill label="Experience" value="5+ years" />
-                  <Pill label="Focus" value="Astronomy content" />
+                  <Pill label="Role" value="Content Specialist" />
+                  <Pill label="Focus" value="Moon & astronomy" />
                   <Pill label="Based on" value="NASA & USNO data" />
                   <Pill label="Updated" value="Continuously" />
                 </div>
