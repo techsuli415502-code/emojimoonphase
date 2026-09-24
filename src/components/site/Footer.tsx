@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Moon, Github, Twitter, Mail } from "lucide-react";
+import { Moon, Mail, ExternalLink } from "lucide-react";
 
 const FOOTER_NAV = [
   { href: "/", label: "Home" },
   { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact Us" },
-  { href: "/sources", label: "Sources" },
 ];
 
 const FOOTER_LEGAL = [
@@ -24,6 +23,13 @@ const FOOTER_SECTIONS = [
   { href: "/#how-it-works", label: "How Moon Phases Work" },
   { href: "/#facts", label: "Moon Facts" },
   { href: "/#faq", label: "FAQ" },
+];
+
+// Direct external source links — no /sources page, no "www" prefix.
+const FOOTER_SOURCES = [
+  { name: "Moon Phase Emoji", url: "https://moonphaseemoji.com/" },
+  { name: "NASA — Moon Phases", url: "https://science.nasa.gov/moon/moon-phases/" },
+  { name: "timeanddate.com — Moon Phases", url: "https://timeanddate.com/moon/phases/" },
 ];
 
 export function Footer() {
@@ -54,24 +60,6 @@ export function Footer() {
                 className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[oklch(0.95_0.012_85/0.10)] text-foreground/70 hover:text-[oklch(0.82_0.16_75)] hover:border-[oklch(0.82_0.16_75/0.5)] transition-colors"
               >
                 <Mail className="h-4 w-4" />
-              </a>
-              <a
-                href="https://science.nasa.gov/moon/moon-phases/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="NASA Moon Phases"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[oklch(0.95_0.012_85/0.10)] text-foreground/70 hover:text-[oklch(0.82_0.16_75)] hover:border-[oklch(0.82_0.16_75/0.5)] transition-colors"
-              >
-                <Twitter className="h-4 w-4" />
-              </a>
-              <a
-                href="https://www.moonphaseemoji.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Reference site"
-                className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[oklch(0.95_0.012_85/0.10)] text-foreground/70 hover:text-[oklch(0.82_0.16_75)] hover:border-[oklch(0.82_0.16_75/0.5)] transition-colors"
-              >
-                <Github className="h-4 w-4" />
               </a>
             </div>
           </div>
@@ -114,9 +102,27 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
+          {/* Sources + Legal combined column */}
           <div>
             <h3 className="text-xs font-semibold uppercase tracking-widest text-[oklch(0.82_0.16_75)] mb-4">
+              Sources
+            </h3>
+            <ul className="space-y-3">
+              {FOOTER_SOURCES.map((s) => (
+                <li key={s.url}>
+                  <a
+                    href={s.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group inline-flex items-start gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  >
+                    <span>{s.name}</span>
+                    <ExternalLink className="mt-0.5 h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity shrink-0" />
+                  </a>
+                </li>
+              ))}
+            </ul>
+            <h3 className="mt-7 text-xs font-semibold uppercase tracking-widest text-[oklch(0.82_0.16_75)] mb-4">
               Legal
             </h3>
             <ul className="space-y-3">

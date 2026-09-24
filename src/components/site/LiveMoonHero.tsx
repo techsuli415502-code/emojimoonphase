@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useCallback, useRef } from "react";
 import { getMoonPhase, getNextFullMoon, getNextNewMoon, type MoonPhaseInfo } from "@/lib/moon/moonPhase";
 import { CosmicBackground } from "./CosmicBackground";
+import { Check, Copy } from "lucide-react";
 
 interface Countdown {
   days: number;
@@ -28,10 +29,19 @@ function pad(n: number): string {
  * Live hero section showing the real-time moon phase as a large emoji,
  * with the phase name, illumination %, current UTC date, and a countdown
  * to the next full moon. Updates every second so the countdown stays live.
+ *
+ * The moon emoji is click-to-copy: clicking it copies the emoji to the
+ * clipboard and shows a confirmation toast.
+ *
+ * Also embeds a third-party moon-phase widget from moonphaseemoji.com
+ * in the right column as a complementary visual reference.
  */
 export function LiveMoonHero() {
   const [now, setNow] = useState<Date | null>(null);
   const [phase, setPhase] = useState<MoonPhaseInfo | null>(null);
+  const [copied, setCopied] = useState(false);
+  const [toast, setToast] = useState<{ title: string; description: string; tone: "ok" | "err" } | null>(null);
+  const toastTimer = useRef<number | null>(null);
 
   useEffect(() => {
     const tick = () => {
@@ -44,6 +54,12 @@ export function LiveMoonHero() {
     return () => window.clearInterval(id);
   }, []);
 
+  const showToast = useCallback((t: { title: string; description: string; tone: "ok" | "err" }) => {
+    if (toastTimer.current) window.clearTimeout(toastTimer.current);
+    setToast(t);
+    toastTimer.current = window.setTimeout(() => setToast(null), 2400);
+  }, []);
+
   const nextFullMoon = useMemo(() => (now ? getNextFullMoon(now) : null), [now]);
   const nextNewMoon = useMemo(() => (now ? getNextNewMoon(now) : null), [now]);
 
@@ -53,6 +69,58 @@ export function LiveMoonHero() {
   );
 
   const illuminationPct = phase ? Math.round(phase.illumination * 100) : 0;
+
+  const handleCopyEmoji = useCallback(async () => {
+    if (!phase) return;
+    let ok = false;
+
+    // Try the modern async Clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(phase.emoji);
+        ok = true;
+      } catch {
+        ok = false;
+      }
+    }
+
+    // Fallback: hidden-textarea + execCommand("copy")
+    if (!ok) {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = phase.emoji;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "0";
+        ta.style.left = "0";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        ta.setSelectionRange(0, ta.value.length);
+        ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch {
+        ok = false;
+      }
+    }
+
+    if (ok) {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+      showToast({
+        title: "Moon emoji copied",
+        description: `${phase.emoji}  ${phase.name} is on your clipboard — paste it anywhere.`,
+        tone: "ok",
+      });
+    } else {
+      showToast({
+        title: "Couldn't copy automatically",
+        description: "Select the moon emoji and press Ctrl/Cmd+C to copy manually.",
+        tone: "err",
+      });
+    }
+  }, [phase, showToast]);
 
   return (
     <section
@@ -72,8 +140,8 @@ export function LiveMoonHero() {
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-16">
-          {/* Left: live moon emoji */}
-          <div className="flex flex-col items-center text-center order-1 lg:order-1">
+          {/* Left: live moon emoji (click to copy) + embed widget */}
+          <div className="flex flex-col items-center text-center order-1 lg:order-1 gap-6">
             <div className="relative">
               {/* halo */}
               <div
@@ -85,21 +153,59 @@ export function LiveMoonHero() {
                 }}
                 aria-hidden="true"
               />
-              <div
-                className="moon-aura relative font-[family-name:var(--font-display-serif)] leading-none select-none"
-                style={{ fontSize: "clamp(8rem, 22vw, 16rem)" }}
-                role="img"
-                aria-label={`Current moon phase: ${phase?.name ?? "loading"}`}
+              <button
+                type="button"
+                onClick={handleCopyEmoji}
+                aria-label={`Copy ${phase?.name ?? "moon"} emoji to clipboard`}
+                title="Click to copy emoji"
+                className="group relative inline-flex items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[oklch(0.82_0.16_75)] focus-visible:ring-offset-4 focus-visible:ring-offset-background"
               >
-                {phase?.emoji ?? "🌕"}
-              </div>
+                <span
+                  className="moon-aura relative font-[family-name:var(--font-display-serif)] leading-none select-none cursor-pointer transition-transform duration-200 group-hover:scale-105 group-active:scale-95"
+                  style={{ fontSize: "clamp(8rem, 22vw, 16rem)" }}
+                  role="img"
+                  aria-label={`Current moon phase: ${phase?.name ?? "loading"}`}
+                >
+                  {phase?.emoji ?? "🌕"}
+                </span>
+                {/* Copy indicator */}
+                <span
+                  className={`pointer-events-none absolute bottom-2 right-2 inline-flex h-10 w-10 items-center justify-center rounded-full bg-[oklch(0.14_0.03_285/0.85)] border border-[oklch(0.82_0.16_75/0.4)] backdrop-blur transition-all duration-300 ${
+                    copied ? "opacity-100 scale-100" : "opacity-0 scale-75 group-hover:opacity-70 group-hover:scale-100"
+                  }`}
+                  aria-hidden="true"
+                >
+                  {copied ? (
+                    <Check className="h-4 w-4 text-[oklch(0.82_0.16_75)]" />
+                  ) : (
+                    <Copy className="h-4 w-4 text-[oklch(0.82_0.16_75)]" />
+                  )}
+                </span>
+              </button>
             </div>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-[oklch(0.82_0.16_75/0.32)] bg-[oklch(0.14_0.03_285/0.55)] px-4 py-1.5 text-xs font-medium text-[oklch(0.82_0.16_75)] backdrop-blur">
+
+            <div className="inline-flex items-center gap-2 rounded-full border border-[oklch(0.82_0.16_75/0.32)] bg-[oklch(0.14_0.03_285/0.55)] px-4 py-1.5 text-xs font-medium text-[oklch(0.82_0.16_75)] backdrop-blur">
               <span className="relative inline-flex h-1.5 w-1.5">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[oklch(0.82_0.16_75)] opacity-75" />
                 <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[oklch(0.82_0.16_75)]" />
               </span>
               Live · Updated in real time
+            </div>
+
+            {/* Embed widget from moonphaseemoji.com */}
+            <div className="reveal is-visible">
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground/70 mb-2">
+                Live moon phase widget
+              </p>
+              <iframe
+                src="https://moonphaseemoji.com/embed?bg=020208&accent=fbbf24&label=true&size=large&lang=en"
+                width={280}
+                height={240}
+                loading="lazy"
+                title="Today's moon phase"
+                style={{ border: 0, borderRadius: 12, overflow: "hidden" }}
+                className="shadow-[0_20px_50px_-20px_rgba(0,0,0,0.8)]"
+              />
             </div>
           </div>
 
@@ -118,9 +224,9 @@ export function LiveMoonHero() {
             <p className="mt-6 max-w-xl mx-auto lg:mx-0 text-base sm:text-lg leading-relaxed text-muted-foreground">
               The Moon is currently in the{" "}
               <strong className="font-semibold text-foreground">{phase?.name ?? "Full Moon"}</strong>{" "}
-              phase. Below is the exact moon emoji for right now, calculated live
-              from the current date using the synodic month. The illumination
-              below shows how much of the visible face is sunlit.
+              phase. Click the moon emoji to copy it to your clipboard, or read on for
+              the live countdown, illumination %, and the full lunar cycle explained
+              in plain English.
             </p>
 
             {/* Stat tiles */}
@@ -176,9 +282,44 @@ export function LiveMoonHero() {
                 })}
               </p>
             )}
+
+            <p className="mt-4 text-xs text-muted-foreground/70">
+              Tip: click the big moon emoji above to copy it.
+            </p>
           </div>
         </div>
       </div>
+
+      {/* Inline toast notification (no global provider required) */}
+      {toast && (
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 max-w-sm w-[calc(100vw-2rem)] pointer-events-none"
+        >
+          <div
+            className={`pointer-events-auto flex items-start gap-3 rounded-xl px-4 py-3 backdrop-blur-md border shadow-2xl ${
+              toast.tone === "ok"
+                ? "bg-[oklch(0.14_0.03_285/0.92)] border-[oklch(0.82_0.16_75/0.45)]"
+                : "bg-[oklch(0.20_0.05_25/0.92)] border-[oklch(0.65_0.22_20/0.55)]"
+            }`}
+          >
+            <span
+              className={`mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${
+                toast.tone === "ok"
+                  ? "bg-[oklch(0.82_0.16_75/0.20)] text-[oklch(0.82_0.16_75)]"
+                  : "bg-[oklch(0.65_0.22_20/0.20)] text-[oklch(0.80_0.20_25)]"
+              }`}
+            >
+              {toast.tone === "ok" ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+            </span>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold text-foreground">{toast.title}</p>
+              <p className="mt-0.5 text-xs text-muted-foreground">{toast.description}</p>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

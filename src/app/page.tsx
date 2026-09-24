@@ -7,7 +7,6 @@ import { HowItWorksSection } from "@/components/site/HowItWorksSection";
 import { FactsSection } from "@/components/site/FactsSection";
 import { FAQSection } from "@/components/site/FAQSection";
 import { EeatSection } from "@/components/site/EeatSection";
-import { SourcesCTASection } from "@/components/site/SourcesCTASection";
 import { JsonLdScript } from "@/components/site/JsonLdScript";
 
 export default function Home() {
@@ -22,7 +21,6 @@ export default function Home() {
       <FactsSection />
       <FAQSection />
       <EeatSection />
-      <SourcesCTASection />
       <JsonLdScript />
     </div>
   );

@@ -45,8 +45,8 @@ const SECTIONS = [
     icon: Globe,
     title: "Third-party services",
     body: [
-      "The site itself does not embed third-party tracking pixels, social plugins, or advertising networks. The only external resources loaded are fonts served from Google Fonts and the favicon served from our own origin.",
-      "If you follow a link to one of the source websites listed on our sources page (such as NASA or timeanddate.com), you leave this site and are subject to the privacy policy of the destination. We are not responsible for the privacy practices of external sites.",
+      "The site itself does not embed third-party tracking pixels, social plugins, or advertising networks. External resources loaded include fonts served from Google Fonts, our favicon served from our own origin, and a moon phase widget iframe embedded from moonphaseemoji.com in the hero section. The iframe loads in your browser and does not transmit any identifying information from you to our servers.",
+      "If you follow a link to one of the source websites listed in our footer (such as NASA or timeanddate.com), you leave this site and are subject to the privacy policy of the destination. We are not responsible for the privacy practices of external sites.",
     ],
   },
   {

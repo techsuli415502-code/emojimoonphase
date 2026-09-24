@@ -14,7 +14,6 @@ const NAV_LINKS = [
   { href: "/#meaning", label: "Meaning" },
   { href: "/#faq", label: "FAQ" },
   { href: "/about", label: "About" },
-  { href: "/sources", label: "Sources" },
 ];
 
 const SECONDARY_LINKS = [

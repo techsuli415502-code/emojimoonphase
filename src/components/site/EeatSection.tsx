@@ -85,8 +85,7 @@ export function EeatSection() {
                   </p>
                 </div>
 
-                <div className="mt-7 pt-5 border-t border-[oklch(0.95_0.012_85/0.08)] grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                  <Pill label="Role" value="Content Specialist" />
+                <div className="mt-7 pt-5 border-t border-[oklch(0.95_0.012_85/0.08)] grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
                   <Pill label="Focus" value="Moon & astronomy" />
                   <Pill label="Based on" value="NASA & USNO data" />
                   <Pill label="Updated" value="Continuously" />
