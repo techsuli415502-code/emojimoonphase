@@ -38,7 +38,7 @@ const SECTIONS = [
     icon: ExternalLink,
     title: "External links",
     body: [
-      "This site links to external resources including NASA, timeanddate.com, and the moonphaseemoji.com reference. We have no control over the content, accuracy, or availability of those external sites, and we accept no responsibility for any loss or damage arising from reliance on information contained on those sites.",
+      "This site links to external resources including NASA and timeanddate.com, plus a third-party moon phase widget embedded in the hero. We have no control over the content, accuracy, or availability of those external sites, and we accept no responsibility for any loss or damage arising from reliance on information contained on those sites.",
       "Following any external link is at your own risk. Each external site operates under its own terms and privacy policy.",
     ],
   },

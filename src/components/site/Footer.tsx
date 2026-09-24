@@ -26,8 +26,10 @@ const FOOTER_SECTIONS = [
 ];
 
 // Direct external source links — no /sources page, no "www" prefix.
-const FOOTER_SOURCES = [
-  { name: "Moon Phase Emoji", url: "https://moonphaseemoji.com/" },
+// moonphaseemoji.com is intentionally shown as a bare URL (no descriptive
+// anchor text) and carries rel="nofollow" so no SEO link equity is passed.
+const FOOTER_SOURCES: Array<{ name?: string; url: string; bare?: boolean }> = [
+  { url: "https://moonphaseemoji.com/", bare: true },
   { name: "NASA — Moon Phases", url: "https://science.nasa.gov/moon/moon-phases/" },
   { name: "timeanddate.com — Moon Phases", url: "https://timeanddate.com/moon/phases/" },
 ];
@@ -108,19 +110,29 @@ export function Footer() {
               Sources
             </h3>
             <ul className="space-y-3">
-              {FOOTER_SOURCES.map((s) => (
-                <li key={s.url}>
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group inline-flex items-start gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <span>{s.name}</span>
-                    <ExternalLink className="mt-0.5 h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity shrink-0" />
-                  </a>
-                </li>
-              ))}
+              {FOOTER_SOURCES.map((s) => {
+                // For moonphaseemoji.com: bare URL anchor text + nofollow
+                // (no descriptive anchor text, no link equity passed).
+                // For the other sources: descriptive anchor text + standard noopener.
+                const isBare = s.bare === true;
+                const relAttr = isBare
+                  ? "nofollow noopener noreferrer"
+                  : "noopener noreferrer";
+                const displayText = isBare ? s.url : s.name;
+                return (
+                  <li key={s.url}>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel={relAttr}
+                      className="group inline-flex items-start gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors break-all"
+                    >
+                      <span className={isBare ? "font-mono text-xs" : ""}>{displayText}</span>
+                      <ExternalLink className="mt-0.5 h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity shrink-0" />
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
             <h3 className="mt-7 text-xs font-semibold uppercase tracking-widest text-[oklch(0.82_0.16_75)] mb-4">
               Legal
