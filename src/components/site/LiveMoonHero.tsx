@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { getMoonPhase, getNextFullMoon, getNextNewMoon, type MoonPhaseInfo } from "@/lib/moon/moonPhase";
+import { CosmicBackground } from "./CosmicBackground";
 
 interface Countdown {
   days: number;
@@ -59,6 +60,8 @@ export function LiveMoonHero() {
       className="relative pt-28 md:pt-36 pb-20 md:pb-28 overflow-hidden"
       aria-labelledby="hero-heading"
     >
+      {/* Cosmic backdrop for the hero — absolute so it never takes vertical space */}
+      <CosmicBackground />
       {/* Orbit decorations around the moon */}
       <div className="absolute inset-x-0 top-24 md:top-32 flex justify-center pointer-events-none" aria-hidden="true">
         <div className="relative h-[260px] w-[260px] sm:h-[320px] sm:w-[320px] md:h-[420px] md:w-[420px]">
