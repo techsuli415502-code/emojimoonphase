@@ -60,3 +60,4 @@ db/*.db-journal
 scripts/*.png
 scripts/*.jpg
 tool-results/
+download/
