@@ -111,25 +111,36 @@ export function Footer() {
             </h3>
             <ul className="space-y-3">
               {FOOTER_SOURCES.map((s) => {
-                // For moonphaseemoji.com: bare URL anchor text + nofollow
-                // (no descriptive anchor text, no link equity passed).
+                // For moonphaseemoji.com: icon-only link (no visible URL text),
+                // rel="nofollow" — URL appears only in href, exactly once on the page.
                 // For the other sources: descriptive anchor text + standard noopener.
                 const isBare = s.bare === true;
                 const relAttr = isBare
                   ? "nofollow noopener noreferrer"
                   : "noopener noreferrer";
-                const displayText = isBare ? s.url : s.name;
                 return (
-                  <li key={s.url}>
-                    <a
-                      href={s.url}
-                      target="_blank"
-                      rel={relAttr}
-                      className="group inline-flex items-start gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors break-all"
-                    >
-                      <span className={isBare ? "font-mono text-xs" : ""}>{displayText}</span>
-                      <ExternalLink className="mt-0.5 h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity shrink-0" />
-                    </a>
+                  <li key={s.url} className="flex items-center gap-2">
+                    {isBare ? (
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel={relAttr}
+                        aria-label="External moon phase reference"
+                        className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[oklch(0.95_0.012_85/0.10)] text-foreground/70 hover:text-[oklch(0.82_0.16_75)] hover:border-[oklch(0.82_0.16_75/0.5)] transition-colors"
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    ) : (
+                      <a
+                        href={s.url}
+                        target="_blank"
+                        rel={relAttr}
+                        className="group inline-flex items-start gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <span>{s.name}</span>
+                        <ExternalLink className="mt-0.5 h-3 w-3 opacity-50 group-hover:opacity-100 transition-opacity shrink-0" />
+                      </a>
+                    )}
                   </li>
                 );
               })}
